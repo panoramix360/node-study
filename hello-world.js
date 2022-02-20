@@ -1,23 +1,35 @@
 const http = require('http')
+const fs = require('fs')
 const port = process.env.PORT || 3000
 
 const urlPattern = /\/?(?:\?.*)?$/
+
+function serveStaticFile(res, path, contentType, responseCode = 200) {
+  fs.readFile(__dirname + path, (err, data) => {
+    if (err) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' })
+      return res.end('500 - Internal Server Error')
+    }
+    res.writeHead(responseCode, { 'Content-Type': contentType })
+    res.end(data)
+  })
+}
 
 const server = http.createServer((req, res) => {
   const path = req.url.replace(urlPattern, '').toLowerCase()
 
   switch (path) {
     case '':
-      res.writeHead(200, { 'Content-Type': 'text/plain' })
-      res.end('Home')
+      serveStaticFile(res, '/public/home.html', 'text/html')
       break
     case '/about':
-      res.writeHead(200, { 'Content-Type': 'text/plain' })
-      res.end('About')
+      serveStaticFile(res, '/public/about.html', 'text/html')
+      break
+    case '/img/logo.png':
+      serveStaticFile(res, '/public/img/logo.png', 'image/png')
       break
     default:
-      res.writeHead(404, { 'Content-Type': 'text/plain' })
-      res.end('Not Found')
+      serveStaticFile(res, '/public/404.html', 'text/html', 404)
       break
   }
 })
