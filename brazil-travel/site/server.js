@@ -9,8 +9,9 @@ const port = process.env.PORT || 3000
 app.engine('handlebars', expressHandlebars.engine({
   defaultLayout: 'main'
 }))
-
 app.set('view engine', 'handlebars')
+
+app.disable('x-powered-by')
 
 app.use(express.static(`${__dirname}/public`))
 
