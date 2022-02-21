@@ -22,6 +22,18 @@ test('about page renders with fortune', () => {
     }))
 })
 
+test('headers print info', () => {
+  const req = { headers: { mock: 'data' } }
+  const res = { type: jest.fn(), send: jest.fn() }
+
+  handlers.headers(req, res)
+  expect(res.type.mock.calls.length).toBe(1)
+  expect(res.type.mock.calls[0][0]).toBe('text/plain')
+
+  expect(res.send.mock.calls.length).toBe(1)
+  expect(res.send.mock.calls[0][0]).toBe('mock: data')
+})
+
 test('404 handler resource', () => {
   const req = {}
   const res = { render: jest.fn(), status: jest.fn() }
