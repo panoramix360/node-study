@@ -4,12 +4,15 @@
   "description": "Web Server to test node/express skills",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Lucas Reis",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.3",
     "express-handlebars": "^6.0.2"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
   }
 }
