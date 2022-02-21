@@ -4,7 +4,8 @@
   "description": "Web Server to test node/express skills",
   "main": "server.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint server.js lib"
   },
   "author": "Lucas Reis",
   "license": "MIT",
@@ -13,6 +14,7 @@
     "express-handlebars": "^6.0.2"
   },
   "devDependencies": {
+    "eslint": "^8.9.0",
     "jest": "^27.5.1",
     "portfinder": "^1.0.28",
     "puppeteer": "^13.3.2"
