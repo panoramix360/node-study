@@ -12,6 +12,21 @@ exports.headers = (req, res) => {
   res.send(headers.join('\n'))
 }
 
+exports.newsletterSignup = (req, res) => {
+  res.render('newsletter-signup', { csrf: 'TOKEN' })
+}
+
+exports.newsletterSignupProcess = (req, res) => {
+  console.log(`Form from querystring: ${req.query.form}`)
+  console.log(`CSRF token: ${req.body._csrf}`)
+  console.log(`Name: ${req.body.name}`)
+  console.log(`Email: ${req.body.email}`)
+  res.redirect(303, '/newsletter-signup/thank-you')
+}
+
+exports.newsletterSignupThankYou = (req, res) =>
+  res.render('newsletter-signup-thank-you')
+
 exports.notFound = (req, res) => {
   res.status(404)
   res.render('404')
