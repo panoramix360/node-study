@@ -1,6 +1,7 @@
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
+const weather = require('./lib/middleware/weather')
 const handlers = require('./lib/handlers')
 
 const app = express()
@@ -31,6 +32,8 @@ app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou)
 // Form handling (with fetch)
 app.get('/newsletter', handlers.newsletter)
 app.post('/api/newsletter-signup', handlers.api.newsletterSignup)
+
+app.use(weather)
 
 app.use(handlers.notFound)
 app.use(handlers.serverError)
