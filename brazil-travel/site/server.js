@@ -15,15 +15,22 @@ app.set('view engine', 'handlebars')
 app.disable('x-powered-by')
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.use(express.static(`${__dirname}/public`))
 
 app.get('/', handlers.home)
 app.get('/about', handlers.about)
 app.get('/headers', handlers.headers)
+
+// Form handling (without javascript)
 app.get('/newsletter-signup', handlers.newsletterSignup)
 app.post('/newsletter-signup/process', handlers.newsletterSignupProcess)
 app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou)
+
+// Form handling (with fetch)
+app.get('/newsletter', handlers.newsletter)
+app.post('/api/newsletter-signup', handlers.api.newsletterSignup)
 
 app.use(handlers.notFound)
 app.use(handlers.serverError)

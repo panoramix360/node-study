@@ -27,6 +27,18 @@ exports.newsletterSignupProcess = (req, res) => {
 exports.newsletterSignupThankYou = (req, res) =>
   res.render('newsletter-signup-thank-you')
 
+exports.newsletter = (req, res) =>
+  res.render('newsletter', { csrf: 'TOKEN' })
+
+exports.api = {
+  newsletterSignup: (req, res) => {
+    console.log(`CSRF token: ${req.body._csrf}`)
+    console.log(`Name: ${req.body.name}`)
+    console.log(`Email: ${req.body.email}`)
+    res.send({ result: 'success' })
+  }
+}
+
 exports.notFound = (req, res) => {
   res.status(404)
   res.render('404')
