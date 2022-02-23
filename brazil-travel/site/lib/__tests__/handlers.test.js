@@ -34,6 +34,62 @@ test('headers print info', () => {
   expect(res.send.mock.calls[0][0]).toBe('mock: data')
 })
 
+test('newsletter signup page renders', () => {
+  const req = {}
+  const res = { render: jest.fn() }
+
+  handlers.newsletterSignup(req, res)
+  expect(res.render.mock.calls.length).toBe(1)
+  expect(res.render.mock.calls[0][0]).toBe('newsletter-signup')
+  expect(res.render.mock.calls[0][1])
+    .toEqual(expect.objectContaining({ csrf: 'TOKEN' }))
+})
+
+test('newsletter signup process redirect to thank you', () => {
+  const req = {
+    query: { form: 'form' },
+    body: { _csrf: 'csrf', name: 'name', email: 'email' }
+  }
+  const res = { redirect: jest.fn() }
+
+  handlers.newsletterSignupProcess(req, res)
+  expect(res.redirect.mock.calls.length).toBe(1)
+  expect(res.redirect.mock.calls[0][0]).toBe(303)
+  expect(res.redirect.mock.calls[0][1]).toBe('/newsletter-signup/thank-you')
+})
+
+test('newsletter signup thank you page renders', () => {
+  const req = {}
+  const res = { render: jest.fn() }
+
+  handlers.newsletterSignupThankYou(req, res)
+  expect(res.render.mock.calls.length).toBe(1)
+  expect(res.render.mock.calls[0][0]).toBe('newsletter-signup-thank-you')
+})
+
+test('newsletter page renders', () => {
+  const req = {}
+  const res = { render: jest.fn() }
+
+  handlers.newsletter(req, res)
+  expect(res.render.mock.calls.length).toBe(1)
+  expect(res.render.mock.calls[0][0]).toBe('newsletter')
+  expect(res.render.mock.calls[0][1])
+    .toEqual(expect.objectContaining({ csrf: 'TOKEN' }))
+})
+
+test('newsletter signup api processes request', () => {
+  const req = {
+    body: { _csrf: 'csrf', name: 'name', email: 'email' }
+  }
+  const res = { send: jest.fn() }
+
+  handlers.api.newsletterSignup(req, res)
+  expect(res.send.mock.calls.length).toBe(1)
+  expect(res.send.mock.calls[0][0])
+    .toEqual(expect.objectContaining({ result: 'success' }))
+})
+
 test('404 handler resource', () => {
   const req = {}
   const res = { render: jest.fn(), status: jest.fn() }
