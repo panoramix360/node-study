@@ -127,6 +127,33 @@ test('vacation photo thank you page renders', () => {
   expect(res.render.mock.calls[0][0]).toBe('vacation-photo-thank-you')
 })
 
+test('vacation photo fetch page renders', () => {
+  const req = {}
+  const res = { render: jest.fn() }
+
+  handlers.vacationPhotoFetch(req, res)
+  expect(res.render.mock.calls.length).toBe(1)
+  expect(res.render.mock.calls[0][0]).toBe('vacation-photo-fetch')
+  expect(res.render.mock.calls[0][1]).toEqual(
+    expect.objectContaining({
+      csrf: 'TOKEN',
+      year: 2022,
+      month: 1
+    })
+  )
+})
+
+test('vacation photo fetch processes form', () => {
+  const req = {}
+  const res = { send: jest.fn() }
+  const fields = {}
+  const files = {}
+
+  handlers.api.vacationPhotoContest(req, res, fields, files)
+  expect(res.send.mock.calls.length).toBe(1)
+  expect(res.send.mock.calls[0][0]).toEqual({ result: 'success' })
+})
+
 test('404 handler resource', () => {
   const req = {}
   const res = { render: jest.fn(), status: jest.fn() }

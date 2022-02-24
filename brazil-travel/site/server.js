@@ -46,6 +46,16 @@ app.post('/contest/vacation-photo/:year/:month', (req, res) => {
 })
 app.get('/contest/vacation-photo-thank-you', handlers.vacationPhotoThankYou)
 
+// File handling (with fetch)
+app.get('/vacation-photo-fetch', handlers.vacationPhotoFetch)
+app.post('/api/vacation-photo-contest/:year/:month', (req, res) => {
+  const form = new multiparty.Form()
+  form.parse(req, (err, fields, files) => {
+    if (err) return res.status(500).send({ error: err.message })
+    handlers.api.vacationPhotoContest(req, res, fields, files)
+  })
+})
+
 app.use(weather)
 
 app.use(handlers.notFound)

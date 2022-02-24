@@ -47,11 +47,23 @@ exports.vacationPhotoContestProcess = (req, res, fields, files) => {
 exports.vacationPhotoThankYou = (req, res) =>
   res.render('vacation-photo-thank-you')
 
+exports.vacationPhotoFetch = (req, res) =>
+  res.render('vacation-photo-fetch', {
+    csrf: 'TOKEN',
+    year: 2022,
+    month: 1
+  })
+
 exports.api = {
   newsletterSignup: (req, res) => {
     console.log(`CSRF token: ${req.body._csrf}`)
     console.log(`Name: ${req.body.name}`)
     console.log(`Email: ${req.body.email}`)
+    res.send({ result: 'success' })
+  },
+  vacationPhotoContest: (req, res, fields, files) => {
+    console.log(`field data: ${JSON.stringify(fields)}`)
+    console.log(`files: ${JSON.stringify(files)}`)
     res.send({ result: 'success' })
   }
 }
