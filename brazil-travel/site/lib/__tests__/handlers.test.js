@@ -90,6 +90,43 @@ test('newsletter signup api processes request', () => {
     .toEqual(expect.objectContaining({ result: 'success' }))
 })
 
+test('vacation photo page renders', () => {
+  const req = {}
+  const res = { render: jest.fn() }
+
+  handlers.vacationPhoto(req, res)
+  expect(res.render.mock.calls.length).toBe(1)
+  expect(res.render.mock.calls[0][0]).toBe('vacation-photo')
+  expect(res.render.mock.calls[0][1]).toEqual(
+    expect.objectContaining({
+      csrf: 'TOKEN',
+      year: 2022,
+      month: 1
+    })
+  )
+})
+
+test('vacation photo contest processes form', () => {
+  const req = {}
+  const res = { redirect: jest.fn() }
+  const fields = {}
+  const files = {}
+
+  handlers.vacationPhotoContestProcess(req, res, fields, files)
+  expect(res.redirect.mock.calls.length).toBe(1)
+  expect(res.redirect.mock.calls[0][0]).toBe(303)
+  expect(res.redirect.mock.calls[0][1]).toBe('/contest/vacation-photo-thank-you')
+})
+
+test('vacation photo thank you page renders', () => {
+  const req = {}
+  const res = { render: jest.fn() }
+
+  handlers.vacationPhotoThankYou(req, res)
+  expect(res.render.mock.calls.length).toBe(1)
+  expect(res.render.mock.calls[0][0]).toBe('vacation-photo-thank-you')
+})
+
 test('404 handler resource', () => {
   const req = {}
   const res = { render: jest.fn(), status: jest.fn() }

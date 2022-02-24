@@ -30,6 +30,23 @@ exports.newsletterSignupThankYou = (req, res) =>
 exports.newsletter = (req, res) =>
   res.render('newsletter', { csrf: 'TOKEN' })
 
+exports.vacationPhoto = (req, res) => {
+  res.render('vacation-photo', {
+    csrf: 'TOKEN',
+    year: 2022,
+    month: 1
+  })
+}
+
+exports.vacationPhotoContestProcess = (req, res, fields, files) => {
+  console.log(`field data: ${JSON.stringify(fields)}`)
+  console.log(`files: ${JSON.stringify(files)}`)
+  res.redirect(303, '/contest/vacation-photo-thank-you')
+}
+
+exports.vacationPhotoThankYou = (req, res) =>
+  res.render('vacation-photo-thank-you')
+
 exports.api = {
   newsletterSignup: (req, res) => {
     console.log(`CSRF token: ${req.body._csrf}`)

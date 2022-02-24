@@ -1,6 +1,8 @@
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
+const multiparty = require('multiparty')
+
 const weather = require('./lib/middleware/weather')
 const handlers = require('./lib/handlers')
 
@@ -32,6 +34,17 @@ app.get('/newsletter-signup/thank-you', handlers.newsletterSignupThankYou)
 // Form handling (with fetch)
 app.get('/newsletter', handlers.newsletter)
 app.post('/api/newsletter-signup', handlers.api.newsletterSignup)
+
+// File handling
+app.get('/vacation-photo', handlers.vacationPhoto)
+app.post('/contest/vacation-photo/:year/:month', (req, res) => {
+  const form = new multiparty.Form()
+  form.parse(req, (err, fields, files) => {
+    if (err) return res.status(500).send({ error: err.message })
+    handlers.vacationPhotoContestProcess(req, res, fields, files)
+  })
+})
+app.get('/contest/vacation-photo-thank-you', handlers.vacationPhotoThankYou)
 
 app.use(weather)
 
